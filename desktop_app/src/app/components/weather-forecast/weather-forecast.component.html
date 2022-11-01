@@ -1,1 +1,5 @@
 <p>weather-forecast works!</p>
+<ng-container *ngIf="weatherInformations$ | async as wInfo">
+    {{ wInfo.coord.lat }}
+
+</ng-container>

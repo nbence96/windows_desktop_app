@@ -9,6 +9,6 @@ export class JokeServiceService {
   public joke$: Observable<Joke>;
 
   constructor() { 
-    this.joke$ = from(fetch("https://api.chucknorris.io/jokes/random")).pipe(switchMap((res) => res.json()));
+    this.joke$ = from(fetch("https://api.chucknorris.io/jokes/random")).pipe(switchMap((res) => res.clone().json()));
   }
 }
