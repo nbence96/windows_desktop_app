@@ -1,8 +1,3 @@
-export interface Position{
-    lng: number,
-    lat: number
-}
-
 export interface Weather{
     "coord" :
         {

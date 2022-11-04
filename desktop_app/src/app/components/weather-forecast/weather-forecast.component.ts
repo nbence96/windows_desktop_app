@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, timeout } from 'rxjs';
-import { Position, Weather } from 'src/app/models/weather';
+import { Observable } from 'rxjs';
+import { Weather } from 'src/app/models/weather';
 import { ForecastServiceService } from 'src/app/services/forecast-service.service';
 
 @Component({
@@ -9,25 +9,20 @@ import { ForecastServiceService } from 'src/app/services/forecast-service.servic
   styleUrls: ['./weather-forecast.component.scss']
 })
 export class WeatherForecastComponent implements OnInit {
-  public lat = 0;
-  public lng = 0;
-  public weatherInformations$: Observable<Weather>;
+  public weatherInformation: Observable<Weather> | undefined;
 
-  constructor(private readonly weatherService: ForecastServiceService) {
-    this.getLocation();
-    this.weatherInformations$ = this.weatherService.getWeatherLatLng(this.lat, this.lng);
+  constructor(private readonly weatherService: ForecastServiceService) {}
 
-   }
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getLocation();    
+  }
 
   getLocation() {
-    return navigator.geolocation.getCurrentPosition(res => {
-      this.lat = res.coords.latitude;
-      this.lng = res.coords.longitude;
+    navigator.geolocation.getCurrentPosition(res => {
+      this.weatherInformation = this.weatherService.getWeatherLatLng(res.coords.latitude, res.coords.longitude);
     },
       function(){
-      alert('User not allowed')
-    },{timeout:10000});
+      alert('User not allowed');
+    });
   }
 }
