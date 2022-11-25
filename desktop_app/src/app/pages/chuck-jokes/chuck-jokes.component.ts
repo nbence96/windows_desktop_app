@@ -10,10 +10,10 @@ import { JokeServiceService } from 'src/app/services/joke-service.service';
 })
 export class ChuckJokesComponent implements OnInit {
   public readonly dailyJoke$: Observable<Joke>;
-
+  
   constructor(private readonly jokeService: JokeServiceService) {
     this.dailyJoke$ = this.jokeService.joke$;
-   }
+  }
 
   ngOnInit(): void {
   }

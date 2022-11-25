@@ -10,11 +10,11 @@ import { ForecastServiceService } from 'src/app/services/forecast-service.servic
 })
 export class WeatherForecastComponent implements OnInit {
   public weatherInformation: Observable<Weather> | undefined;
-
-  constructor(private readonly weatherService: ForecastServiceService) {}
+  
+  constructor(private readonly weatherService: ForecastServiceService) { }
 
   ngOnInit(): void {
-    this.getLocation();    
+    this.getLocation();
   }
 
   getLocation() {
