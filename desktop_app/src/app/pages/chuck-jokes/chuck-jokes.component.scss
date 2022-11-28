@@ -1,0 +1,36 @@
+.mat-card{
+    width:35%;
+}
+
+img{
+    position:absolute;
+}
+span {
+    height: 200px;
+    width: 250px;
+    background: gray;
+    position:relative;
+    cursor: pointer;
+    border: 3px double black;
+    border-radius: 10px;
+    display: flex;
+    margin-left: 214px;
+    color: gainsboro;
+    text-align: center;
+  }
+
+  span:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    top: 160px;
+    height: 20px;
+    width: 20px;
+    background: gray;
+    box-sizing:border-box;
+    transform: rotate(135deg) translate(-50%);
+    border-bottom: inherit;
+    border-right: inherit;
+    box-shadow: inherit;
+  }

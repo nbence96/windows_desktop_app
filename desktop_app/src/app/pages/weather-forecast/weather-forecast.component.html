@@ -1,5 +1,40 @@
-<p>weather-forecast works!</p>
-<ng-container *ngIf="weatherInformation | async as wInfo">
-    {{ wInfo.coord.lat }}
-
-</ng-container>
+<div *ngIf="!weatherInformation">Engedélyezd a tartózkodási helyhez való hozzáférést!</div>
+<mat-card *ngIf="weatherInformation | async as wInfo">
+    <mat-card-header>
+      <mat-card-title>{{wInfo.name}}</mat-card-title>
+      <mat-card-subtitle>{{wInfo.weather[0].main}}</mat-card-subtitle>
+    </mat-card-header>
+    <div *ngIf="wInfo.main.temp < 18;else meleg">
+        <img mat-card-image src="https://www.metkep.hu/wp-content/uploads/2019/05/cold.jpg" alt="Hideg">
+    </div>
+    <ng-template #meleg>
+        <img mat-card-image src="https://noinet.hu/wp-content/uploads/2020/11/Meleg-idojaras-hoseg.jpeg" alt="Meleg">
+    </ng-template>
+    <mat-card-content>
+        <div>Hőmérséklet: {{wInfo.main.temp}}°C</div>
+        <div>Érzékelt hőmérséklet: {{wInfo.main.feels_like}}°C</div>
+        <div>Páratartalom: {{wInfo.main.humidity}}%</div>
+        <div>Felhősödés: {{wInfo.clouds.all}}%</div>
+    </mat-card-content>
+    <mat-card-actions>
+        <form (ngSubmit)="getNewWeather(form.value)">
+            <mat-form-field appearance="fill">
+              <mat-label>Város</mat-label>
+              <input type="text" matInput [formControl]="form" [matAutocomplete]="auto" required="">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngFor="let validation of validation_msgs.contactAutocompleteControl">
+                <div *ngIf="form.hasError(validation.type)">
+                  {{validation.message}}
+                </div>
+              </mat-error>
+            </mat-form-field>
+            <button mat-button [disabled]="form.invalid"><mat-icon>done</mat-icon></button>
+            <button mat-button (click)="getLocation()"><mat-icon>my_location</mat-icon></button>
+          </form>
+          
+    </mat-card-actions>
+  </mat-card><br>

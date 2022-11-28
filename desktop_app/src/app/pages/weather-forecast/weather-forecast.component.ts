@@ -1,7 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 import { Weather } from 'src/app/models/weather';
+import { CityserviceService } from 'src/app/services/cityservice.service';
 import { ForecastServiceService } from 'src/app/services/forecast-service.service';
+
+function autocompleteObjectValidator(validOptions: Array<string>): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    console.log(!validOptions.includes(control.value));
+    if (!validOptions.includes(control.value)) {
+      return { 'invalidAutocompleteObject': { value: control.value } }
+    }
+    return null
+  }
+}
 
 @Component({
   selector: 'app-weather-forecast',
@@ -10,12 +22,39 @@ import { ForecastServiceService } from 'src/app/services/forecast-service.servic
 })
 export class WeatherForecastComponent implements OnInit {
   public weatherInformation: Observable<Weather> | undefined;
-  
-  constructor(private readonly weatherService: ForecastServiceService) { }
+  public cityArray: string[] = [];
+  form = new FormControl('',
+    {
+      validators: [autocompleteObjectValidator(this.cityArray), Validators.required]
+  });
+  filteredOptions: Observable<string[]>;
+
+  public validation_msgs = {
+    'contactAutocompleteControl': [
+      { type: 'invalidAutocompleteObject', message: 'Kattints az egyik választható lehetőségre!' },
+      { type: 'required', message: 'Kötelező megadni' }
+    ]
+  }
+
+  constructor(private readonly weatherService: ForecastServiceService, private cityService: CityserviceService) {
+    this.filteredOptions = this.form.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '') && value.length >= 2 ? this._filter(value): []),
+    );
+  }
 
   ngOnInit(): void {
+    this.csvImport();
     this.getLocation();
   }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.cityArray.filter(option => option.toLowerCase().includes(filterValue) && option.length < 50);
+  }
+
+  
 
   getLocation() {
     navigator.geolocation.getCurrentPosition(res => {
@@ -25,4 +64,18 @@ export class WeatherForecastComponent implements OnInit {
       alert('User not allowed');
     });
   }
+
+  getNewWeather(city: string){
+    this.weatherInformation = this.weatherService.getWeatherByCity(city);
+  }
+
+  csvImport(){
+    this.cityService.getInfo().subscribe(data => {
+      const list = data.split('\n');
+      list.forEach( e => {
+        this.cityArray.push(e);
+      })
+    });
+  }
+
 }

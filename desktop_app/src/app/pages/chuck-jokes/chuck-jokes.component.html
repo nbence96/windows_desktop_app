@@ -1,10 +1,16 @@
-<div>Daily Chuck Norris joke:</div>
+<div *ngIf="dailyJoke$ | async as chuckJoke else empty">
+    <img class="box" src="../../assets/chuck.png">
+    <span>
+        {{chuckJoke.value}}
+    </span>
+</div>
 
-<ng-container *ngIf="dailyJoke$ | async as chuckJoke else empty">
-    <div>{{chuckJoke.value}}</div>
-</ng-container>
 
 <ng-template #empty>
-    <div>No Chuck Norris joke today</div>
-    <img src="https://cdn.frankerfacez.com/emoticon/425196/4" alt="Sadge">
+    <div>
+        <img class="box" src="../../assets/chuck.png">
+        <span>
+            No Chuck Norris joke today 
+        </span>
+    </div>
 </ng-template><br>
