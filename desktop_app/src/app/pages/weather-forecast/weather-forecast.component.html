@@ -1,4 +1,4 @@
-<div *ngIf="!weatherInformation">Engedélyezd a tartózkodási helyhez való hozzáférést!</div>
+<div *ngIf="!weatherInformation">Engedélyezd a tartózkodási helyhez való hozzáférést az időjárás megjelenítéséhez!</div>
 <mat-card *ngIf="weatherInformation | async as wInfo">
     <mat-card-header>
       <mat-card-title>{{wInfo.name}}</mat-card-title>
