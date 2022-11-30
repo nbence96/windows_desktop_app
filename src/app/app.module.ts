@@ -20,13 +20,16 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { DeleteDialogComponent } from './pages/delete-dialog/delete-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChuckJokesComponent,
     WeatherForecastComponent,
-    ToDoListComponent
+    ToDoListComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatCheckboxModule,
     MatCardModule,
     HttpClientModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

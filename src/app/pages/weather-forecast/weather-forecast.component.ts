@@ -7,7 +7,6 @@ import { ForecastServiceService } from 'src/app/services/forecast-service.servic
 
 function autocompleteObjectValidator(validOptions: Array<string>): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
-    console.log(!validOptions.includes(control.value));
     if (!validOptions.includes(control.value)) {
       return { 'invalidAutocompleteObject': { value: control.value } }
     }

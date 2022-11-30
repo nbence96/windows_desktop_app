@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, startWith, Subject, switchMap } from 'rxjs';
 import { listItem } from 'src/app/models/listItem';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-to-do-list',
@@ -22,7 +24,7 @@ export class ToDoListComponent implements OnInit {
   public displayedColumns: string[] = ['description', 'toDay', 'priority', 'done', 'delete'];
 
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.panelOpenState = false;
    }
 
@@ -30,6 +32,19 @@ export class ToDoListComponent implements OnInit {
     this.init();
     this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDay());
     this.updatingToDoList();
+  }
+
+  openDialog(toDoListId: string): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: toDoListId
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.deleteToDoListItem(toDoListId);
+      }
+    }, err => {
+      console.warn(err);
+    });
   }
 
   private updatingToDoList(): void {
@@ -54,7 +69,7 @@ export class ToDoListComponent implements OnInit {
     );
   }
 
-  public  deleteToDoListItem(toDoListId: any) {
+  public  deleteToDoListItem(toDoListId: string) {
     this.db$
       .pipe(
         switchMap(
