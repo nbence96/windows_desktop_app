@@ -38,7 +38,7 @@ export class WeatherForecastComponent implements OnInit {
   constructor(private readonly weatherService: ForecastServiceService, private cityService: CityserviceService) {
     this.filteredOptions = this.form.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '') && value.length >= 2 ? this._filter(value): []),
+      map(value => this._filter(value || '')),
     );
   }
 
@@ -50,7 +50,7 @@ export class WeatherForecastComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.cityArray.filter(option => option.toLowerCase().includes(filterValue) && option.length < 50);
+    return this.cityArray.filter(option => option.toLowerCase().includes(filterValue) && option.length < 50).slice(0,100);
   }
 
   
