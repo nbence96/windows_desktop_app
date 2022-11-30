@@ -17,7 +17,7 @@
       
         <ng-container matColumnDef="toDay">
           <th mat-header-cell *matHeaderCellDef> Határidő </th>
-          <td mat-cell *matCellDef="let element"> {{element.toDay.getFullYear()}}.{{element.toDay.getMonth() + 1}}.{{element.toDay.getDay()}}. </td>
+          <td mat-cell *matCellDef="let element"> {{element.toDay.getFullYear()}}.{{element.toDay.getMonth() + 1}}.{{element.toDay.getDate()}}. </td>
         </ng-container>
       
         <ng-container matColumnDef="priority">
