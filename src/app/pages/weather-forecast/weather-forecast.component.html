@@ -1,4 +1,30 @@
-<div *ngIf="!weatherInformation">Engedélyezd a tartózkodási helyhez való hozzáférést az időjárás megjelenítéséhez!</div>
+<mat-card *ngIf="!weatherInformation">
+  <mat-card-header>
+    <mat-card-title>Időjárás</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions>
+    <form (ngSubmit)="getNewWeather(form.value)">
+        <mat-form-field appearance="fill">
+          <mat-label>Város</mat-label>
+          <input type="text" matInput [formControl]="form" [matAutocomplete]="auto" required="">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngFor="let validation of validation_msgs.contactAutocompleteControl">
+            <div *ngIf="form.hasError(validation.type)">
+              {{validation.message}}
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <button mat-button [disabled]="form.invalid"><mat-icon>done</mat-icon></button>
+        <button mat-button (click)="getLocation()" [disabled]="!isPlaceOfResidenceAgreed"><mat-icon>my_location</mat-icon></button>
+      </form>
+</mat-card-actions>
+<mat-card-footer></mat-card-footer>
+</mat-card>
+
 <mat-card *ngIf="weatherInformation | async as wInfo">
     <mat-card-header>
       <mat-card-title>{{wInfo.name}}</mat-card-title>
@@ -33,7 +59,7 @@
               </mat-error>
             </mat-form-field>
             <button mat-button [disabled]="form.invalid"><mat-icon>done</mat-icon></button>
-            <button mat-button (click)="getLocation()"><mat-icon>my_location</mat-icon></button>
+            <button mat-button (click)="getLocation()" [disabled]="!isPlaceOfResidenceAgreed"><mat-icon>my_location</mat-icon></button>
           </form>
     </mat-card-actions>
     <mat-card-footer></mat-card-footer>

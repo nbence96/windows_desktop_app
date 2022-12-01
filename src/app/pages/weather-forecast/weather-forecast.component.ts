@@ -27,6 +27,7 @@ export class WeatherForecastComponent implements OnInit {
       validators: [autocompleteObjectValidator(this.cityArray), Validators.required]
   });
   filteredOptions: Observable<string[]>;
+  isPlaceOfResidenceAgreed = false;
 
   public validation_msgs = {
     'contactAutocompleteControl': [
@@ -57,10 +58,11 @@ export class WeatherForecastComponent implements OnInit {
 
   getLocation() {
     navigator.geolocation.getCurrentPosition(res => {
+      this.isPlaceOfResidenceAgreed = true;
       this.weatherInformation = this.weatherService.getWeatherLatLng(res.coords.latitude, res.coords.longitude);
     },
       function(){
-      alert('User not allowed');
+        alert('Időjárás jelentés helymeghatározás funkció megtagadva!');
     });
   }
 
