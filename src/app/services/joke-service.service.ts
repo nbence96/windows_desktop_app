@@ -6,9 +6,13 @@ import { Joke } from '../models/joke';
   providedIn: 'root'
 })
 export class JokeServiceService {
-  public joke$: Observable<Joke>;
+  public joke$!: Observable<Joke>;
 
   constructor() { 
+    this.newRandomJoke();
+  }
+
+  newRandomJoke(){
     this.joke$ = from(fetch("https://api.chucknorris.io/jokes/random")).pipe(switchMap((res) => res.clone().json()));
   }
 }

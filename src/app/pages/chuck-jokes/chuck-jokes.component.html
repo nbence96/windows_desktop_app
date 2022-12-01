@@ -1,5 +1,5 @@
 <div *ngIf="dailyJoke$ | async as chuckJoke else empty">
-    <img class="box" src="../../assets/chuck.png">
+    <img src="../../assets/chuck.png" (click)="newRandomJoke()">
     <span>
         {{chuckJoke.value}}
     </span>
@@ -8,9 +8,7 @@
 
 <ng-template #empty>
     <div>
-        <img class="box" src="../../assets/chuck.png">
-        <span>
-            No Chuck Norris joke today 
-        </span>
+        <img src="../../assets/chuck.png">
+        <span></span>
     </div>
 </ng-template><br>
